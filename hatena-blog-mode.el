@@ -47,10 +47,17 @@
 ;;; Code:
 
 (require 'xml)
+(require 'url)
 
-(defvar hatena-id nil)
-(defvar hatena-blog-api-key  nil)
-(defvar hatena-blog-id nil)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; AtomPubSetting
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defvar hatena-id nil
+  "User id for Hatena.")
+(defvar hatena-blog-api-key  nil
+  "Blog api key for Hatena.")
+(defvar hatena-blog-id nil
+  "Blog id for Hatena<XXX.hatenablog.com/>.")
 (defvar hatena-blog-file-path nil)
 (defvar hatena-blog-backup-dir nil)
 (defvar hatena-blog-xml-template nil)
@@ -68,6 +75,40 @@
   </app:control>
 </entry>")
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; minor-mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defvar hatena-blog-mode nil)
+(defvar hatena-blog-mode-map nil)
+
+(if (not (assq 'hatena-blog-mode minor-mode-alist))
+    (setq minor-mode-alist
+          (cons '(hatena-blog-mode "Hatena-blog-mode")
+                minor-mode-alist)))
+
+(defun hatena-blog-mode (&optional arg)
+  "hatena-blog-mode"
+  (interactive)
+  (cond
+   ((< (prefix-numeric-value arg) 0)
+    (setq hatena-blog-mode nil))
+   (arg
+    (setq hatena-blog-mode t))
+   (t
+    (setq hatena-blog-mode (not hatena-blog-mode))))
+  (if hatena-blog-mode
+    nil))
+
+(defun define-hatena-blog-mode-map ()
+  (unless (keymapp hatena-blog-mode-map)
+    (setq hatena-blog-mode-map (make-sparse-keymap))
+    (setq minor-mode-map-alist
+          (cons (cons 'hatena-blog-mode hatena-blog-mode-map)
+                minor-mode-map-alist))))
+(define-hatena-blog-mode-map)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun hatena-blog-build-xml ()
   (interactive)
   (let (
@@ -102,11 +143,13 @@
                                (if (search-forward-regexp "HTTP/1.1 201 Created" nil t)
                                    (message "Entry posted.")
                                  (progn
-                                   (message "Failed."))))))
+                                   (message "Failed.")))
+                               )))
     ));
 
 (defun hatena-blog-write ()
   (interactive)
+  (hatena-blog-mode t)
   (find-file hatena-blog-file-path)
   )
 
@@ -116,7 +159,29 @@
   (if (equal hatena-blog-backup-dir nil)
       nil
     (write-file (concat hatena-blog-backup-dir (format-time-string "%Y-%m-%d-%H-%M-%S") ".md")))
-  (move-file-to-trash hatena-blog-file-path))
+  (move-file-to-trash hatena-blog-file-path)
+  )
+
+
+(defun hatena-blog-show ()
+  (interactive)
+  )
+
+(defun hatena-blog-get ()
+  (interactive)
+  )
+
+(defun hatena-blog-put ()
+  (interactive)
+  )
+
+(defun hatena-blog-delete ()
+  (interactive)
+  )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; key-binding
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 (provide 'hatena-blog-mode)
