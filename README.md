@@ -1,9 +1,6 @@
 # hatena-blog-mode
 Hatena Blog API Library for Emacs
 
-## Requirement
-
-
 ## Usage
 ### Setting
 ```lisp
@@ -21,11 +18,12 @@ Hatena Blog API Library for Emacs
 0. ```C-x P```->post
 
 ## Install
+put this package in your load-path-dir
 
 ## Future Work
 
-_ get/update/dalete your post
-_
+* get/update/dalete your post
+* write in htmk-mode & hatena-mode
 
 
 ## License
