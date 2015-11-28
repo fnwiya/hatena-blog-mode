@@ -1,5 +1,4 @@
 # hatena-blog-mode
-===
 Hatena Blog API Library for Emacs
 
 ## Requirement
@@ -25,8 +24,8 @@ Hatena Blog API Library for Emacs
 
 ## Future Work
 
-- get/update/dalete your post
--
+_ get/update/dalete your post
+_
 
 
 ## License
