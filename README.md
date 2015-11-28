@@ -24,7 +24,7 @@ put this package in your load-path-dir
 ## Future Work
 
 * get/update/dalete your post
-* ~~write in htmk-mode & hatena-mode~~
+* write in ~~htmk-mode &~~ hatena-mode
 
 ## License
 MIT License
