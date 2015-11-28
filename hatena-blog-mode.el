@@ -4,6 +4,7 @@
 ;; URL: https://github.com/fnwiya/hatena-blog-mode
 ;; Package-Requires: ()
 ;; Keywords: hatena-blog
+;; Version: 0.1
 
 ;; Copyright (c) 2015 fnwiya
 ;;
@@ -36,7 +37,12 @@
 
 ;;
 ;; (require 'hatena-blog-mode.el)
-;;
+;; (setq hatena-id "XXXXXXXX")
+;; (setq hatena-blog-api-key  "XXXXXXXX")
+;; (setq hatena-blog-id "XXXXXXXX")
+;; set if you want to backup your post.
+;; (setq hatena-blog-backup-dir "XXXXXXXX")
+
 
 ;;; Code:
 
@@ -81,7 +87,7 @@
                    blog-is-draft))
     ))
 
-(defun hatena-blog-post2 ()
+(defun hatena-blog-pre-post ()
   (interactive)
   (let* ((url-request-method "POST")
          (url-request-extra-headers
@@ -101,11 +107,12 @@
 
 (defun hatena-blog-write ()
   (interactive)
-  (find-file hatena-blog-file-path))
+  (find-file hatena-blog-file-path)
+  )
 
 (defun hatena-blog-post ()
   (interactive)
-  (hatena-blog-post2)
+  (hatena-blog-pre-post)
   (if (equal hatena-blog-backup-dir nil)
       nil
     (write-file (concat hatena-blog-backup-dir (format-time-string "%Y-%m-%d-%H-%M-%S") ".md")))
