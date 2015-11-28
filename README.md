@@ -1,4 +1,5 @@
 # hatena-blog-mode
+===
 Hatena Blog API Library for Emacs
 
 ## Requirement
@@ -11,26 +12,21 @@ Hatena Blog API Library for Emacs
 (setq hatena-id "XXXXXXXX")
 (setq hatena-blog-api-key  "XXXXXXXX")
 (setq hatena-blog-id "XXXXXXXX")
-(setq hatena-blog-file-path "XXXXXXXX")
-(setq hatena-blog-backup-dir "XXXXXXXX")
-(setq hatena-blog-xml-template "<?xml version='1.0' encoding='utf-8'?>
-<entry xmlns='http://www.w3.org/2005/Atom'
-       xmlns:app='http://www.w3.org/2007/app'>
-  <title>%s</title>
-  <author><name>%s</name></author>
-  <content type='text/plain'>%s</content>
-  <updated>%s</updated>
-  <category term='%s' />
-  <app:control>
-    <app:draft>%s</app:draft>
-  </app:control>
-</entry>")
+(setq hatena-blog-backup-dir "XXXXXXXX") ;; set if you want to backup your post.
 ```
 
 ### Post
 
+0. ```C-x h```->make md-file
+0. write your blog in markdown.
+0. ```C-x P```->post
 
-## ToDo
+## Install
+
+## Future Work
+
+- get/update/dalete your post
+-
 
 
 ## License

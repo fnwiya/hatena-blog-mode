@@ -47,8 +47,9 @@
 (defvar hatena-blog-id nil)
 (defvar hatena-blog-file-path nil)
 (defvar hatena-blog-backup-dir nil)
-(defvar hatena-blog-xml-template "
-<?xml version='1.0' encoding='utf-8'?>
+(defvar hatena-blog-xml-template nil)
+(setq hatena-blog-file-path "~/hatena-post.md")
+(setq hatena-blog-xml-template "<?xml version='1.0' encoding='utf-8'?>
 <entry xmlns='http://www.w3.org/2005/Atom'
        xmlns:app='http://www.w3.org/2007/app'>
   <title>%s</title>
@@ -105,7 +106,9 @@
 (defun hatena-blog-post ()
   (interactive)
   (hatena-blog-post2)
-  (write-file (concat hatena-blog-backup-dir (format-time-string "%Y-%m-%d-%H-%M-%S") ".md"))
+  (if (equal hatena-blog-backup-dir nil)
+      nil
+    (write-file (concat hatena-blog-backup-dir (format-time-string "%Y-%m-%d-%H-%M-%S") ".md")))
   (move-file-to-trash hatena-blog-file-path))
 
 (global-set-key (kbd "C-x h") 'hatena-blog-write)
