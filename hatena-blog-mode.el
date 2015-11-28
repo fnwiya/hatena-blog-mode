@@ -42,12 +42,12 @@
 
 (require 'xml)
 
-(defvar my-hatena-id nil)
-(defvar my-hatena-blog-api-key  nil)
-(defvar my-hatena-blog-id nil)
-(defvar my-hatena-blog-file-path nil)
-(defvar my-hatena-blog-backup-dir nil)
-(defvar my-hatena-blog-xml-template "
+(defvar hatena-id nil)
+(defvar hatena-blog-api-key  nil)
+(defvar hatena-blog-id nil)
+(defvar hatena-blog-file-path nil)
+(defvar hatena-blog-backup-dir nil)
+(defvar hatena-blog-xml-template "
 <?xml version='1.0' encoding='utf-8'?>
 <entry xmlns='http://www.w3.org/2005/Atom'
        xmlns:app='http://www.w3.org/2007/app'>
@@ -61,7 +61,7 @@
   </app:control>
 </entry>")
 
-(defun my-hatena-blog-build-xml ()
+(defun hatena-blog-build-xml ()
   (interactive)
   (let (
         (blog-title (read-string "Title: "
@@ -71,24 +71,24 @@
         (blog-category (read-string "Category: "))
         (blog-is-draft (if (y-or-n-p "Send as draft? ") "yes" "no"))
         )
-    (princ (format my-hatena-blog-xml-template
+    (princ (format hatena-blog-xml-template
                    (xml-escape-string blog-title)
-                   my-hatena-id
+                   hatena-id
                    (xml-escape-string (buffer-string))
                    (format-time-string "%Y-%m-%dT%H:%M:%S")
                    (xml-escape-string blog-category)
                    blog-is-draft))
     ))
 
-(defun my-hatena-blog-post2 ()
+(defun hatena-blog-post2 ()
   (interactive)
   (let* ((url-request-method "POST")
          (url-request-extra-headers
           `(("Content-Type" . "application/x-www-form-urlencoded")
-            ("Authorization" . ,(concat "Basic " (base64-encode-string (concat my-hatena-id ":" my-hatena-blog-api-key))))))
+            ("Authorization" . ,(concat "Basic " (base64-encode-string (concat hatena-id ":" hatena-blog-api-key))))))
          (url-request-data
-          (encode-coding-string (my-hatena-blog-build-xml) 'utf-8))
-         (post-url (format "https://blog.hatena.ne.jp/%s/%s/atom/entry" my-hatena-id my-hatena-blog-id)))
+          (encode-coding-string (hatena-blog-build-xml) 'utf-8))
+         (post-url (format "https://blog.hatena.ne.jp/%s/%s/atom/entry" hatena-id hatena-blog-id)))
 
     (url-retrieve post-url (lambda (data)
                              (with-current-buffer (current-buffer)
@@ -98,18 +98,18 @@
                                    (message "Failed."))))))
     ));
 
-(defun my-hatena-blog-write ()
+(defun hatena-blog-write ()
   (interactive)
-  (find-file my-hatena-blog-file-path))
+  (find-file hatena-blog-file-path))
 
-(defun my-hatena-blog-post ()
+(defun hatena-blog-post ()
   (interactive)
-  (my-hatena-blog-post2)
-  (write-file (concat my-hatena-blog-backup-dir (format-time-string "%Y-%m-%d-%H-%M-%S") ".md"))
-  (move-file-to-trash my-hatena-blog-file-path))
+  (hatena-blog-post2)
+  (write-file (concat hatena-blog-backup-dir (format-time-string "%Y-%m-%d-%H-%M-%S") ".md"))
+  (move-file-to-trash hatena-blog-file-path))
 
-(global-set-key (kbd "C-x h") 'my-hatena-blog-write)
-(global-set-key (kbd "C-x P") 'my-hatena-blog-post)
+(global-set-key (kbd "C-x h") 'hatena-blog-write)
+(global-set-key (kbd "C-x P") 'hatena-blog-post)
 
 
 (provide 'hatena-blog-mode)
