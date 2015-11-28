@@ -65,9 +65,9 @@
   "Backup dir for Hatena."
   :group 'hatena-blog)
 (defvar hatena-blog-file-path nil)
-(defvar hatena-blog-editing-mode nil)
-(setq hatena-blog-editing-mode "md")
-(setq hatena-blog-file-path (concat "~/hatena-post." hatena-blog-editing-mode))
+(defcustom hatena-blog-editing-mode "md"
+  "Editing mode for Hatena."
+  :group 'hatena-blog)
 (defvar hatena-blog-xml-template nil)
 (setq hatena-blog-xml-template "<?xml version='1.0' encoding='utf-8'?>
 <entry xmlns='http://www.w3.org/2005/Atom'
@@ -155,6 +155,7 @@
 (defun hatena-blog-write ()
   (interactive)
   (hatena-blog-mode t)
+  (setq hatena-blog-file-path (concat "~/hatena-post." hatena-blog-editing-mode))
   (find-file hatena-blog-file-path)
   )
 
@@ -163,7 +164,7 @@
   (hatena-blog-pre-post)
   (if (equal hatena-blog-backup-dir nil)
       nil
-    (write-file (concat hatena-blog-backup-dir (format-time-string "%Y-%m-%d-%H-%M-%S") ".md")))
+    (write-file (concat hatena-blog-backup-dir (format-time-string "%Y-%m-%d-%H-%M-%S") "." hatena-blog-editing-mode)))
   (move-file-to-trash hatena-blog-file-path)
   )
 

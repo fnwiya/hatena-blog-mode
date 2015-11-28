@@ -8,6 +8,7 @@ Hatena Blog API Library for Emacs
 (setq hatena-id "XXXXXXXX")
 (setq hatena-blog-api-key  "XXXXXXXX")
 (setq hatena-blog-id "XXXXXXXX")
+(setq hatena-blog-editing-mode "md") ;; set md or html
 (setq hatena-blog-backup-dir "XXXXXXXX") ;; set if you want to backup your post.
 ```
 
