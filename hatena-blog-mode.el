@@ -39,14 +39,15 @@
 ;;
 
 ;;; Code:
+
 (require 'xml)
 
-(setq my-hatena-id "")
-(setq my-hatena-blog-api-key  "")
-(setq my-hatena-blog-id "")
-(setq my-hatena-blog-file-path "")
-(setq my-hatena-blog-backup-dir "")
-(setq my-hatena-blog-xml-template "
+(defvar my-hatena-id nil)
+(defvar my-hatena-blog-api-key  nil)
+(defvar my-hatena-blog-id nil)
+(defvar my-hatena-blog-file-path nil)
+(defvar my-hatena-blog-backup-dir nil)
+(defvar my-hatena-blog-xml-template "
 <?xml version='1.0' encoding='utf-8'?>
 <entry xmlns='http://www.w3.org/2005/Atom'
        xmlns:app='http://www.w3.org/2007/app'>
