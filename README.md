@@ -13,9 +13,9 @@ Hatena Blog API Library for Emacs
 
 ### Post
 
-0. ```C-x h```->make md-file
+0. ```M-x hatena-blog-write```
 0. write your blog in markdown.
-0. ```C-x P```->post
+0. ```M-x hatena-blog-post```
 
 ## Install
 put this package in your load-path-dir

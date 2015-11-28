@@ -118,9 +118,6 @@
     (write-file (concat hatena-blog-backup-dir (format-time-string "%Y-%m-%d-%H-%M-%S") ".md")))
   (move-file-to-trash hatena-blog-file-path))
 
-(global-set-key (kbd "C-x h") 'hatena-blog-write)
-(global-set-key (kbd "C-x P") 'hatena-blog-post)
-
 
 (provide 'hatena-blog-mode)
 
