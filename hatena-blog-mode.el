@@ -50,18 +50,25 @@
 (require 'url)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; AtomPubSetting
+;; var-setting
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defvar hatena-id nil
-  "User id for Hatena.")
-(defvar hatena-blog-api-key  nil
-  "Blog api key for Hatena.")
-(defvar hatena-blog-id nil
-  "Blog id for Hatena<XXX.hatenablog.com/>.")
+(defcustom hatena-id nil
+  "User id for Hatena."
+  :group 'hatena-blog)
+(defcustom hatena-blog-api-key  nil
+  "Blog api key for Hatena."
+  :group 'hatena-blog)
+(defcustom hatena-blog-id nil
+  "Blog id for Hatena<XXX.hatenablog.com/>."
+  :group 'hatena-blog)
+(defcustom hatena-blog-backup-dir nil
+  "Backup dir for Hatena."
+  :group 'hatena-blog)
 (defvar hatena-blog-file-path nil)
-(defvar hatena-blog-backup-dir nil)
+(defvar hatena-blog-editing-mode nil)
+(setq hatena-blog-editing-mode "md")
+(setq hatena-blog-file-path (concat "~/hatena-post." hatena-blog-editing-mode))
 (defvar hatena-blog-xml-template nil)
-(setq hatena-blog-file-path "~/hatena-post.md")
 (setq hatena-blog-xml-template "<?xml version='1.0' encoding='utf-8'?>
 <entry xmlns='http://www.w3.org/2005/Atom'
        xmlns:app='http://www.w3.org/2007/app'>
@@ -105,9 +112,9 @@
     (setq minor-mode-map-alist
           (cons (cons 'hatena-blog-mode hatena-blog-mode-map)
                 minor-mode-map-alist))))
-(define-hatena-blog-mode-map)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
+;; Command
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun hatena-blog-build-xml ()
   (interactive)
@@ -125,8 +132,7 @@
                    (xml-escape-string (buffer-string))
                    (format-time-string "%Y-%m-%dT%H:%M:%S")
                    (xml-escape-string blog-category)
-                   blog-is-draft))
-    ))
+                   blog-is-draft))))
 
 (defun hatena-blog-pre-post ()
   (interactive)
@@ -143,9 +149,8 @@
                                (if (search-forward-regexp "HTTP/1.1 201 Created" nil t)
                                    (message "Entry posted.")
                                  (progn
-                                   (message "Failed.")))
-                               )))
-    ));
+                                   (message "Failed."))
+                                 ))))));
 
 (defun hatena-blog-write ()
   (interactive)
@@ -182,8 +187,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; key-binding
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(define-hatena-blog-mode-map)
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'hatena-blog-mode)
 
 ;;; hatena-blog-mode.el ends here
