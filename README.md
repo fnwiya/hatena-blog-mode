@@ -5,6 +5,7 @@ Hatena Blog API Library for Emacs
 
 
 ## Usage
+### Setting
 ```lisp
 (require 'hatena-blog-mode.el)
 (setq my-hatena-id "")
@@ -13,6 +14,11 @@ Hatena Blog API Library for Emacs
 (setq my-hatena-blog-file-path "")
 (setq my-hatena-blog-backup-dir "")
 ```
+
+### Post
+
+
+## ToDo
 
 
 ## License
