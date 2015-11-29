@@ -92,7 +92,6 @@
           (cons '(hatena-blog-mode "Hatena-blog-mode")
                 minor-mode-alist)))
 
-;;;###autoload
 (defun hatena-blog-mode (&optional arg)
   "Toggle hatena-blog-mode with ARG."
   (interactive)
@@ -106,7 +105,6 @@
   (if hatena-blog-mode
     nil))
 
-;;;###autoload
 (defun define-hatena-blog-mode-map ()
   "Key-map for hatena-blog-mode."
   (unless (keymapp hatena-blog-mode-map)
