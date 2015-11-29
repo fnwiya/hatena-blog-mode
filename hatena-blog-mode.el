@@ -151,7 +151,8 @@
                              (with-current-buffer (current-buffer)
                                (cond ((search-forward-regexp "HTTP/1.1 201 Created" nil t)
                                    (message "Entry posted.")
-                                   (kill-buffer (concat "hatena-new-entry." hatena-blog-editing-mode)))
+                                   (if (equal hatena-blog-backup-dir nil)
+                                       (kill-buffer (concat "hatena-new-entry." hatena-blog-editing-mode))))
                                  (t
                                   (message "Failed."))
                                  ))))));
@@ -171,7 +172,9 @@
   (hatena-blog-pre-post)
   (if (equal hatena-blog-backup-dir nil)
       nil
-    (write-file (concat hatena-blog-backup-dir (format-time-string "%Y-%m-%d-%H-%M-%S") "." hatena-blog-editing-mode)))
+    (defvar hatena-blog-backup-file (concat (format-time-string "%Y-%m-%d-%H-%M-%S") "." hatena-blog-editing-mode))
+    (write-file (concat hatena-blog-backup-dir hatena-blog-backup-file))
+    (kill-buffer hatena-blog-backup-file))
   (move-file-to-trash hatena-blog-file-path)
   )
 
