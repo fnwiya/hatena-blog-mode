@@ -28,9 +28,9 @@ put this package in your load-path-dir
 
 ## Inspired
 
-- [http://ichiroc.hatenablog.com/entry/2013/12/16/235806:title]
-- [https://github.com/takaishi/ya-hatena-mode:title]
-- [https://gist.github.com/tarao/4465244:title]
+- http://ichiroc.hatenablog.com/entry/2013/12/16/235806
+- https://github.com/takaishi/ya-hatena-mode
+- https://gist.github.com/tarao/4465244
 
 ## License
 MIT License
