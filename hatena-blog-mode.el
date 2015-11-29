@@ -68,8 +68,7 @@
 (defcustom hatena-blog-editing-mode "md"
   "Editing mode for Hatena."
   :group 'hatena-blog)
-(defvar hatena-blog-xml-template nil)
-(setq hatena-blog-xml-template "<?xml version='1.0' encoding='utf-8'?>
+(defconst hatena-blog-xml-template "<?xml version='1.0' encoding='utf-8'?>
 <entry xmlns='http://www.w3.org/2005/Atom'
        xmlns:app='http://www.w3.org/2007/app'>
   <title>%s</title>
@@ -93,8 +92,9 @@
           (cons '(hatena-blog-mode "Hatena-blog-mode")
                 minor-mode-alist)))
 
+;;;###autoload
 (defun hatena-blog-mode (&optional arg)
-  "hatena-blog-mode"
+  "Toggle hatena-blog-mode with ARG."
   (interactive)
   (cond
    ((< (prefix-numeric-value arg) 0)
@@ -106,7 +106,9 @@
   (if hatena-blog-mode
     nil))
 
+;;;###autoload
 (defun define-hatena-blog-mode-map ()
+  "Key-map for hatena-blog-mode."
   (unless (keymapp hatena-blog-mode-map)
     (setq hatena-blog-mode-map (make-sparse-keymap))
     (setq minor-mode-map-alist
@@ -117,9 +119,9 @@
 ;; Command
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun hatena-blog-build-xml ()
+  "Build xml for hatena-blog."
   (interactive)
-  (let (
-        (blog-title (read-string "Title: "
+  (let ((blog-title (read-string "Title: "
                                  (save-excursion (goto-char (point-min))
                                                  (search-forward-regexp "#* \\(.*\\)" nil t)
                                                  (match-string 1))))
@@ -135,6 +137,7 @@
                    blog-is-draft))))
 
 (defun hatena-blog-pre-post ()
+  "Post-request using hatena-blog-API."
   (interactive)
   (let* ((url-request-method "POST")
          (url-request-extra-headers
@@ -146,20 +149,24 @@
 
     (url-retrieve post-url (lambda (data)
                              (with-current-buffer (current-buffer)
-                               (if (search-forward-regexp "HTTP/1.1 201 Created" nil t)
+                               (cond ((search-forward-regexp "HTTP/1.1 201 Created" nil t)
                                    (message "Entry posted.")
-                                 (progn
-                                   (message "Failed."))
+                                   (kill-buffer (concat "hatena-new-entry." hatena-blog-editing-mode)))
+                                 (t
+                                  (message "Failed."))
                                  ))))));
-
+;;;###autoload
 (defun hatena-blog-write ()
+  "Write new entry."
   (interactive)
   (hatena-blog-mode t)
-  (setq hatena-blog-file-path (concat "~/hatena-post." hatena-blog-editing-mode))
+  (setq hatena-blog-file-path (concat "~/hatena-new-entry." hatena-blog-editing-mode))
   (find-file hatena-blog-file-path)
   )
 
+;;;###autoload
 (defun hatena-blog-post ()
+  "Post new entry."
   (interactive)
   (hatena-blog-pre-post)
   (if (equal hatena-blog-backup-dir nil)
@@ -168,22 +175,25 @@
   (move-file-to-trash hatena-blog-file-path)
   )
 
-
-(defun hatena-blog-show ()
-  (interactive)
-  )
-
-(defun hatena-blog-get ()
-  (interactive)
-  )
-
-(defun hatena-blog-put ()
-  (interactive)
-  )
-
-(defun hatena-blog-delete ()
-  (interactive)
-  )
+;; ;;;###autoload
+;; (defun hatena-blog-show ()
+;;   (interactive)
+;;   )
+;;
+;; ;;;###autoload
+;; (defun hatena-blog-get ()
+;;   (interactive)
+;;   )
+;;
+;; ;;;###autoload
+;; (defun hatena-blog-put ()
+;;   (interactive)
+;;   )
+;;
+;; ;;;###autoload
+;; (defun hatena-blog-delete ()
+;;   (interactive)
+;;   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; key-binding
