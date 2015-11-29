@@ -1,5 +1,8 @@
 # hatena-blog-mode
-Hatena Blog API Library for Emacs
+[Hatena Blog API](http://developer.hatena.ne.jp/ja/documents/blog/apis/atom) Library for Emacs
+
+## Install
+put this package in your load-path-dir
 
 ## Usage
 ### Setting
@@ -18,13 +21,16 @@ Hatena Blog API Library for Emacs
 0. write your entry
 0. ```M-x hatena-blog-post```
 
-## Install
-put this package in your load-path-dir
-
 ## Future Work
 
 * get/update/dalete your post
 * write in ~~htmk-mode &~~ hatena-mode
+
+## Inspired
+
+- [http://ichiroc.hatenablog.com/entry/2013/12/16/235806:title]
+- [https://github.com/takaishi/ya-hatena-mode:title]
+- [https://gist.github.com/tarao/4465244:title]
 
 ## License
 MIT License
