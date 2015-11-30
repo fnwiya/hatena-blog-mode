@@ -3,7 +3,7 @@
 ;; Author: fnwiya
 ;; URL: https://github.com/fnwiya/hatena-blog-mode
 ;; Package-Requires: ()
-;; Keywords: hatena-blog
+;; Keywords: hatena blog
 ;; Version: 0.1
 
 ;; Copyright (c) 2015 fnwiya
@@ -35,7 +35,6 @@
 
 ;;; Usage:
 
-;;
 ;; (require 'hatena-blog-mode.el)
 ;; (setq hatena-id "XXXXXXXX")
 ;; (setq hatena-blog-api-key  "XXXXXXXX")
