@@ -2,7 +2,7 @@
 [Hatena Blog API](http://developer.hatena.ne.jp/ja/documents/blog/apis/atom) Library for Emacs
 
 ## Install
-put this package in your load-path-dir
+Put this package in your load-path-dir.
 
 ## Usage
 ### Setting
