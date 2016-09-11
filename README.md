@@ -23,8 +23,11 @@ Put this package in your load-path-dir.
 
 ## Future Work
 
-* get/ ~~update/dalete~~ your post
-* write in ~~html-mode &~~ hatena-mode
+[ ] get post
+[x] update post
+[x] dalete post
+[x] write in html-mode
+[ ] write in hatena-mode
 
 ## Inspired
 

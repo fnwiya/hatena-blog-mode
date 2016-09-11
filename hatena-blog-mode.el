@@ -202,7 +202,7 @@
                                     (message "Entry edited."))
                                    (t
                                     (message "Failed.")))))))
-;;
+
 ;; ;;;###autoload
 (defun hatena-blog-delete ()
   (interactive)
