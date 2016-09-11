@@ -186,9 +186,22 @@
 ;;   )
 ;;
 ;; ;;;###autoload
-;; (defun hatena-blog-put ()
-;;   (interactive)
-;;   )
+(defun hatena-blog-edit ()
+  (interactive)
+  (let* ((url-request-method "PUT")
+         (url-request-extra-headers
+          `(("Content-Type" . "application/x-www-form-urlencoded")
+            ("Authorization" . ,(concat "Basic " (base64-encode-string (concat hatena-id ":" hatena-blog-api-key))))))
+         (url-request-data
+          (encode-coding-string (hatena-blog-build-xml) 'utf-8))
+         (entry-id (read-string "Entry-id: "))
+         (post-url (format "https://blog.hatena.ne.jp/%s/%s/atom/entry/%s" hatena-id hatena-blog-id entry-id)))
+
+    (url-retrieve post-url (lambda (data)
+                             (cond ((search-forward-regexp "HTTP/1.1 200 OK" nil t)
+                                    (message "Entry edited."))
+                                   (t
+                                    (message "Failed.")))))))
 ;;
 ;; ;;;###autoload
 (defun hatena-blog-delete ()
