@@ -133,6 +133,9 @@
                    (xml-escape-string blog-category)
                    blog-is-draft))))
 
+;; (defun hatena-blog-parse-xml (xml)
+;; )
+
 (defun hatena-blog-pre-post ()
   "Post-request using hatena-blog-API."
   (interactive)
@@ -152,15 +155,15 @@
                                        (kill-buffer (concat "hatena-new-entry." hatena-blog-editing-mode))))
                                  (t
                                   (message "Failed."))
-                                 ))))));
+                                 ))))))
+
 ;;;###autoload
 (defun hatena-blog-write ()
   "Write new entry."
   (interactive)
   (hatena-blog-mode t)
   (setq hatena-blog-file-path (concat "~/hatena-new-entry." hatena-blog-editing-mode))
-  (find-file hatena-blog-file-path)
-  )
+  (find-file hatena-blog-file-path))
 
 ;;;###autoload
 (defun hatena-blog-post ()
@@ -172,48 +175,75 @@
     (defvar hatena-blog-backup-file (concat (format-time-string "%Y-%m-%d-%H-%M-%S") "." hatena-blog-editing-mode))
     (write-file (concat hatena-blog-backup-dir hatena-blog-backup-file))
     (kill-buffer hatena-blog-backup-file))
-  (move-file-to-trash hatena-blog-file-path)
-  )
+  (move-file-to-trash hatena-blog-file-path))
 
-;; ;;;###autoload
-;; (defun hatena-blog-show ()
-;;   (interactive)
-;;   )
-;;
-;; ;;;###autoload
-;; (defun hatena-blog-get ()
-;;   (interactive)
-;;   )
-;;
-;; ;;;###autoload
+;;;###autoload
+(defun hatena-blog-get ()
+  (interactive)
+  (let* ((url-request-method "GET")
+         (url-request-extra-headers
+          `(("Content-Type" . "application/x-www-form-urlencoded")
+            ("Authorization" . ,(concat "Basic " (base64-encode-string (concat hatena-id ":" hatena-blog-api-key))))))
+         (entry-id (read-string "Entry-id: "))
+         (get-url (format "https://blog.hatena.ne.jp/%s/%s/atom/entry/%s" hatena-id hatena-blog-id entry-id)))
+
+    (url-retrieve get-url (lambda (data)
+                             (cond ((search-forward-regexp "HTTP/1.1 200 OK" nil t)
+                                    (switch-to-buffer "*request-result*")
+                                    (erase-buffer)
+                                    (insert data))
+                                   (t
+                                    (message "Failed.")))))))
+
+;;;###autoload
+(defun hatena-blog-gets ()
+  "Get entries list."
+  (interactive)
+  (let* ((url-request-method "GET")
+         (url-request-extra-headers
+          `(("Content-Type" . "application/x-www-form-urlencoded")
+            ("Authorization" . ,(concat "Basic " (base64-encode-string (concat hatena-id ":" hatena-blog-api-key))))))
+         (gets-url (format "https://blog.hatena.ne.jp/%s/%s/atom/entry" hatena-id hatena-blog-id)))
+
+    (url-retrieve gets-url (lambda (data)
+                             (cond ((search-forward-regexp "HTTP/1.1 200 OK" nil t)
+                                    (switch-to-buffer "*request-result*")
+                                    (erase-buffer)
+                                    (insert data))
+                                   (t
+                                    (message "Failed.")))))))
+
+;;;###autoload
 (defun hatena-blog-edit ()
+  "Edit entry."
   (interactive)
   (let* ((url-request-method "PUT")
          (url-request-extra-headers
           `(("Content-Type" . "application/x-www-form-urlencoded")
             ("Authorization" . ,(concat "Basic " (base64-encode-string (concat hatena-id ":" hatena-blog-api-key))))))
+         (entry-id (read-string "Entry-id: "))
          (url-request-data
           (encode-coding-string (hatena-blog-build-xml) 'utf-8))
-         (entry-id (read-string "Entry-id: "))
-         (post-url (format "https://blog.hatena.ne.jp/%s/%s/atom/entry/%s" hatena-id hatena-blog-id entry-id)))
+         (put-url (format "https://blog.hatena.ne.jp/%s/%s/atom/entry/%s" hatena-id hatena-blog-id entry-id)))
 
-    (url-retrieve post-url (lambda (data)
+    (url-retrieve put-url (lambda (data)
                              (cond ((search-forward-regexp "HTTP/1.1 200 OK" nil t)
                                     (message "Entry edited."))
                                    (t
                                     (message "Failed.")))))))
 
-;; ;;;###autoload
+;;;###autoload
 (defun hatena-blog-delete ()
+  "Delete entry."
   (interactive)
   (let* ((url-request-method "DELETE")
          (url-request-extra-headers
           `(("Content-Type" . "application/x-www-form-urlencoded")
             ("Authorization" . ,(concat "Basic " (base64-encode-string (concat hatena-id ":" hatena-blog-api-key))))))
          (entry-id (read-string "Entry-id: "))
-         (post-url (format "https://blog.hatena.ne.jp/%s/%s/atom/entry/%s" hatena-id hatena-blog-id entry-id)))
+         (delete-url (format "https://blog.hatena.ne.jp/%s/%s/atom/entry/%s" hatena-id hatena-blog-id entry-id)))
 
-    (url-retrieve post-url (lambda (data)
+    (url-retrieve delete-url (lambda (data)
                              (cond ((search-forward-regexp "HTTP/1.1 200 OK" nil t)
                                     (message "Entry deleted."))
                                    (t
