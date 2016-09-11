@@ -23,7 +23,7 @@ Put this package in your load-path-dir.
 
 ## Future Work
 
-* get/update/dalete your post
+* get/ ~~update/dalete~~ your post
 * write in ~~html-mode &~~ hatena-mode
 
 ## Inspired
