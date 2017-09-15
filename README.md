@@ -1,3 +1,4 @@
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 # hatena-blog-mode
 [Hatena Blog API](http://developer.hatena.ne.jp/ja/documents/blog/apis/atom) Library for Emacs
 
@@ -36,4 +37,4 @@ Put this package in your load-path-dir.
 - https://gist.github.com/tarao/4465244
 
 ## License
-MIT License
+This software is released under the MIT License, see LICENSE.txt.
